@@ -1,14 +1,23 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-
-//route files
-const bootcamps = require('./routes/bootcamps');
+const bodyParser = require('body-parser');
+const connectDB = require('./config/db');
 
 //Load env variables
 dotenv.config({ path: './config/config.env' });
 
+//Connect to Database
+connectDB();
+
+//route files
+const bootcamps = require('./routes/bootcamps');
+
 const app = express();
+
+//To Use req.body object
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
