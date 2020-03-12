@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
+const errorHandler = require('./middleware/error');
 
 //Load env variables
 dotenv.config({ path: './config/config.env' });
@@ -14,13 +15,15 @@ connectDB();
 const bootcamps = require('./routes/bootcamps');
 
 const app = express();
-
 //To Use req.body object
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Mount routers
 app.use('/api/v1/bootcamps', bootcamps);
+
+//middleware
+app.use(errorHandler);
 
 //Dev logging middleware
 if (process.env.NODE_ENV === 'development') {
