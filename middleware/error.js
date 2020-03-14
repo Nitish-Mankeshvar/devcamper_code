@@ -4,10 +4,19 @@ const errorHandler = (err, req, res, next) => {
 
   error.message = err.message;
 
-  //Log to console. for dev
   if (err.name === 'CastError') {
     const message = `Resourse not found with id ${err.value}`;
     error = new ErrorResponse(message, 404);
+  }
+
+  if (err.code === 11000) {
+    const message = `Cannot create dusplicate resource`;
+    error = new ErrorResponse(message, 400);
+  }
+
+  if (err.name === 'ValidationError') {
+    const message = Object.values(err.errors);
+    error = new ErrorResponse(message, 400);
   }
 
   res.status(error.statusCode || 500).json({
