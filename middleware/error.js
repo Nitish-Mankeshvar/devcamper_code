@@ -11,7 +11,7 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.code === 11000) {
     const message = `Cannot create dusplicate resource`;
-    error = new ErrorResponse(message, 400);
+    error = new ErrorResponse(messa00ge, 400);
   }
 
   if (err.name === 'ValidationError') {
